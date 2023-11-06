@@ -1,0 +1,31 @@
+{
+  "name": "capacityanalysis",
+  "version": "1.0.0",
+  "description": "A web app for Capacity Analysis",
+  "main": "server.js",
+  "scripts": {
+    "start": "node ./server/server.js",
+    "build": "npm install && client && npm install && npm run build",
+    "test": "echo hello world"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mudrock1776/MernStack.git"
+  },
+  "keywords": [
+    "Capacity",
+    "Analysis"
+  ],
+  "author": "Dylan Hughes, Boris Nikolov, Isaiah Nhan, Caleb Harris, Surya Nallathambi, Ethan Huyck",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mudrock1776/MernStack/issues"
+  },
+  "homepage": "https://github.com/Mudrock1776/MernStack#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.0"
+  }
+}
