@@ -177,11 +177,11 @@ exports.deleteProcess = async (req,res) => {
     }
 }
 
-//Find part
-exports.findPart = async (req, res) => {
+//Find Process
+exports.findProcess = async (req, res) => {
     try {
-        var searchedPart = await part.findById(req.body.id);
-        res.json(searchedPart);
+        var searchedProcess = await process.findById(req.body.id);
+        res.json(searchedProcess);
     } catch(err) {
         console.log(err);
         res.send(500, err);
@@ -209,6 +209,8 @@ exports.getCapacity = async (req, res) => {
                 });
             }
         }
+        var workstations = await workstation.find({user: req.body.user});
+        res.json(workstations);
     } catch(err) {
         console.log(err);
         res.send(400, err)
