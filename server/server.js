@@ -24,6 +24,6 @@ app.get('/*', (req, res) => {
 });
 
 //Starts server listening
-app.listent(PORT, ()=> {
+app.listen(PORT, ()=> {
     console.log(`Server is runing on port: ${PORT}`);
 });

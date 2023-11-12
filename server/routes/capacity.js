@@ -28,6 +28,7 @@ Routes.route("/part/list").post((req, res) => {
 /*Updates a part, takes a post request with a body as follows:
 {
     id: <part id>,
+    user: <current user>,
     name: <new name>,
     months: <new list of amounts>
 }
@@ -80,6 +81,7 @@ Routes.route("/workstation/list").post((req, res) => {
 /*Updates a workstation, takes a post request with a body as follows:
 {
     id: <workstation id>,
+    user: <current user>,
     name: <new name>,
     amount: <new amount of workstations>
     hours: <new amount of hours>
@@ -127,6 +129,7 @@ Routes.route("/process/add").post((req,res) => {
 /*Provides a list of processes registered to the user, takes a post request with body as follows:
 {
     user: <current user>
+    part: <current part>
 }
 */
 Routes.route("/process/list").post((req, res) => {
@@ -136,6 +139,8 @@ Routes.route("/process/list").post((req, res) => {
 /*Updates a process, takes a post request with a body as follows:
 {
     id: <process id>,
+    user: <current user>,
+    part: <current part>,
     name: <new name>,
     workstation: <name of a workstation>,
     MT: <Machine Time>,
