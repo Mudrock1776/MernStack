@@ -14,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 //Routes
+app.use(require("./routes/capacity"));
 
 //makes our deafault path the production build of the react-app so we can run everything under one port
 app.use(express.static(path.resolve(__dirname, "../client/build")));
@@ -23,6 +24,6 @@ app.get('/*', (req, res) => {
 });
 
 //Starts server listening
-app.listent(PORT, ()=> {
+app.listen(PORT, ()=> {
     console.log(`Server is runing on port: ${PORT}`);
 });
