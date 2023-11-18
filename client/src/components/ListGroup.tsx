@@ -1,16 +1,23 @@
 import React, { useState } from "react";
+import { ReactNode } from "react";
 
 interface Props {
+  children?: ReactNode;
   items: string[];
   heading: string;
+  selectedIndex: number;
   // (item: string) => void
-  onSelectItem: (item: string) => void;
+  onSelectItem: (item: string, index: number) => void;
 }
 
-function ListGroup({ items, heading, onSelectItem }: Props) {
+function ListGroup({
+  children,
+  items,
+  heading,
+  onSelectItem,
+  selectedIndex,
+}: Props) {
   // Hook
-  const [selectedIndex, setSelectedIndex] = useState(-1);
-
   const getMessage = () => {
     return items.length === 0 && <p>No item found</p>;
   };
@@ -29,11 +36,11 @@ function ListGroup({ items, heading, onSelectItem }: Props) {
             }
             key={item}
             onClick={() => {
-              setSelectedIndex(index);
-              onSelectItem(item);
+              onSelectItem(item, index);
             }}
           >
             {item}
+            {children}
           </li>
         ))}
       </ul>
