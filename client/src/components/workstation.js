@@ -12,7 +12,7 @@ function getToken(){
 
 
 
-const App = () => {
+const WorkStation = () => {
   const [workstations, setWorkstations] = useState([]);
   const [newWorkstation, setNewWorkstation] = useState({
     name: '',
@@ -154,4 +154,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default WorkStation;
