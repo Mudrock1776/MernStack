@@ -9,6 +9,7 @@ const App = () => {
     return(
         <div>
             <Routes>
+                <Route path="/workstation" element={<WorkStation />} />
             </Routes>
         </div>
     );
