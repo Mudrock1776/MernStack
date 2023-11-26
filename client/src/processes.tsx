@@ -71,11 +71,22 @@ function Processes() {
     workstation: "",
   });
 
+  function getToken() {
+    const tokenString = sessionStorage.getItem("token");
+    const userToken = tokenString != null ? JSON.parse(tokenString) : "isake6";
+    if (tokenString == null) {
+      console.log(
+        "No token found in sessionStorage, setting default token to 'isake6'"
+      );
+      return userToken;
+    } else return userToken?.token;
+  }
+
   const handleOnClick = async () => {
     setShowAlert(false);
     setShowAddButton(false);
     let results = [{ value: "", label: "" }];
-    let array = await fetchWorkstations("isake6");
+    let array = await fetchWorkstations(getToken());
     for (let i = 0; i < array.length; i++) {
       let result = array[i];
       results[i] = { value: result["name"], label: result["name"] };
@@ -89,7 +100,7 @@ function Processes() {
   ) => {
     event.preventDefault();
     let data = [""];
-    data[0] = "isake6";
+    data[0] = getToken();
     data[1] = selectedPart;
     data[2] = addProcessFormData.name;
     data[3] = addProcessFormData.workstation;
@@ -110,7 +121,7 @@ function Processes() {
     setMydetails(result);
     setShowProcessesForm(false);
 
-    let results = await fetchProcesses("isake6", selectedPart);
+    let results = await fetchProcesses(getToken(), selectedPart);
     setFetchedProcesses(results);
     let resultStrings = [""];
     console.log("Results of fetchProcesses() for selected part:");
@@ -134,7 +145,7 @@ function Processes() {
     setSelectedDetailIndex(-1);
     setShowAddButton(true);
     let partInput = item;
-    let userInput = "isake6";
+    let userInput = getToken();
     let result = await fetchProcesses(userInput, partInput);
     setFetchedProcesses(result);
     let resultStrings = [""];
@@ -159,7 +170,7 @@ function Processes() {
     setShowWorkstations(false);
   };
 
-  const handleSelectProcess = (item: string, index: number) => {
+  const handleSelectProcess = async (item: string, index: number) => {
     setShowAddButton(false);
     //setSelectedPartIndex(-1);
     setSelectedProcessIndex(index);
@@ -168,8 +179,10 @@ function Processes() {
     setProcess(item);
     let result = [""];
     let selectedProcessDetails;
-    for (let i = 0; i < fetchedProcesses.length; i++) {
-      let array = fetchedProcesses[i];
+    let updatedProcesses = await fetchProcesses(getToken(), selectedPart);
+    setFetchedProcesses(updatedProcesses);
+    for (let i = 0; i < updatedProcesses.length; i++) {
+      let array = updatedProcesses[i];
       if (array["name"] === item) {
         setProcessID(array["_id"]);
         result[0] = "Workstation: " + array["workstation"];
@@ -201,7 +214,7 @@ function Processes() {
     setShowWorkstations(false);
     setSelectedDetailIndex(index);
     let results = [{ value: "", label: "" }];
-    let array = await fetchWorkstations("isake6");
+    let array = await fetchWorkstations(getToken());
     for (let i = 0; i < array.length; i++) {
       let result = array[i];
       results[i] = { value: result["name"], label: result["name"] };
@@ -214,7 +227,7 @@ function Processes() {
 
   async function SelectWorkstations() {
     let results = [""];
-    let userInput = "isake6";
+    let userInput = getToken();
     let array = await fetchWorkstations(userInput);
     console.log("Results of fetchWorkstations:");
     console.log(array);
@@ -250,10 +263,10 @@ function Processes() {
     event.preventDefault();
     let data = [""];
     data[0] = processID;
-    data[1] = "isake6";
+    data[1] = getToken();
     data[2] = selectedPart;
     data[3] = process;
-    let updatedProcesses = await fetchProcesses("isake6", selectedPart);
+    let updatedProcesses = await fetchProcesses(getToken(), selectedPart);
     setFetchedProcesses(updatedProcesses);
     let defaultMT = "";
     let defaultBS = "";
@@ -296,11 +309,11 @@ function Processes() {
     // Generate input for POST action
     let data = [""];
     data[0] = processID;
-    data[1] = "isake6";
+    data[1] = getToken();
     data[2] = selectedPart;
     data[3] = process;
     data[4] = item;
-    let updatedProcesses = await fetchProcesses("isake6", selectedPart);
+    let updatedProcesses = await fetchProcesses(getToken(), selectedPart);
     setFetchedProcesses(updatedProcesses);
     for (let i = 0; i < updatedProcesses.length; i++) {
       let array = updatedProcesses[i];
@@ -351,7 +364,7 @@ function Processes() {
   }
 
   async function fetchWorkstations(userInput: string) {
-    let username = "isake6";
+    let username = getToken();
     try {
       const response = await fetch("/workstation/list", {
         method: "POST",
@@ -431,6 +444,7 @@ function Processes() {
       }
 
       const result = await response.text();
+      console.log("Result of updateProcess():" + result);
       return result;
     } catch (error) {
       console.error("Error updating process:", error);
