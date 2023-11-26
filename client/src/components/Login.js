@@ -60,28 +60,58 @@ export default function Login(){
         )
     }
 
-    return (
-        <div>
-            <h1>Capacity Analyzer</h1>
-            <div class="login-page">
-                <div class="form">
-                    <h2>Log In</h2>
-                    <form class="register-form">
-                        <input type="text" placeholder="First name"/>
-                        <input type="text" placeholder="Last name"/>
-                        <input type="text" placeholder="Email Address"/>
-                        <input type="password" placeholder="Password"/>
-                        <button>create</button>
-                        <p class="message">Already registered? <a href="#">Sign In</a></p>
-                        </form>
-                        <form class="login-form">
-                        <input type="text" placeholder="username"/>
-                        <input type="password" placeholder="password"/>
-                        <button>login</button>
-                        <p class="message">Not registered? <a href="#">Create an account</a></p>
+    const [reg, setReg] = useState("");
+
+    function toggleLogin() {
+        setReg("");
+    }
+
+    function toggleRegister() {
+        setReg("a");
+    }
+
+    function formType() {
+
+        if (reg == "") {
+            var output = (
+                <div>
+                    <form class="login-form">
+                        <h2>Log In</h2>
+                        <input type="text" placeholder="Email" value={form.username} onChange={(e) => updateForm({username: e.target.value})}/>
+                        <input type="password" placeholder="Password" value={form.password} onChange={(e) => updateForm({password: e.target.value})}/>
+                        <button onClick={(e) => {onSubmit(e);}}>login</button>
+                        <p class="message">Not registered? <a href="#" onClick={() => toggleRegister()}>Create an account</a></p>
                     </form>
                 </div>
+            )
+        } else {
+            var output = (
+                <div>
+                    <form class="register-form">
+                        <h2>Sign Up</h2>
+                        <input type="text" placeholder="Email" value={form.username} onChange={(e) => updateForm({username: e.target.value})}/>
+                        <input type="password" placeholder="Password" value={form.password} onChange={(e) => updateForm({password: e.target.value})}/>
+                        <input type="passwordConfirmation" placeholder="Confirm Password"/>
+                        <button onClick={(e) => {register(e);}}>create</button>
+                        <p class="message">Already registered? <a href="#" onClick={() => toggleLogin()}>Log In</a></p>
+                    </form>
                 </div>
+            )
+        }
+
+        return output
+    }
+
+    return (
+        <div>
+            <div class = "login-page">
+                <h1>Capacity Analysis</h1>
+                <div class = "form">
+                    {formType()}
+                </div>
+            </div>
+            
+            
             <Error />
         </div>
     )
