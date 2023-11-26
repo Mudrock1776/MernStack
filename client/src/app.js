@@ -1,17 +1,15 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Login from "./components/Login"
-import main from "./components/main"
-import Nav from "./components/Nav"
-//Components
-
+import Main from "./components/main"; // Use PascalCase for component names
+import Nav from "./components/Nav";
 
 const App = () => {
-    return(
+    return (
         <div>
+            <Nav />
             <Routes>
-				<Route path="/" element={<Nav />} />
-				<Route path="/" element={<main />} />
+                <Route path="/" element={<Main />} />
+                <Route path="/main" element={<Main />} />
             </Routes>
         </div>
     );

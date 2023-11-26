@@ -1,0 +1,18 @@
+:root {
+    --black: #020300;
+    --teal: #1AFFD5;
+    --grey: #8B8BAE;
+    --purple: #3626A7;
+    --white: #FCFCFC;
+}
+
+.main {
+	width: 96%;
+	display: flex;
+	flex-wrap: wrap;
+	z-index: 1;
+}
+
+.main > div {
+	flex: 0 0 50%;
+}
