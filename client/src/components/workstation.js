@@ -81,7 +81,7 @@ const WorkStation = () => {
 
   return (
     <div style={{ padding: '20px', backgroundColor: '#020300', color: '#FCFCFC', fontFamily: 'Arial, sans-serif' }}>
-      <h2 style={{ color: '#1AFFD5' }}>Workstation List</h2>
+      <h2 style={{ color: '#1AFFD5' }}>Workstation Management</h2>
 
       <div style={{ marginBottom: '20px' }}>
         <label style={{ marginRight: '10px' }}>Name:</label>
