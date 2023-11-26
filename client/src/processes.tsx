@@ -1,9 +1,8 @@
 import Alert from "./components/Alert.tsx";
 import Button from "./components/Button.tsx";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ListGroup from "./components/ListGroup.tsx";
 import { Route, Routes } from "react-router-dom";
-//import { listProcesses } from "../server/controllers/capacity.js";
 
 function Processes() {
   const [showAlert, setShowAlert] = useState(false);
@@ -24,7 +23,8 @@ function Processes() {
   const [processID, setProcessID] = useState("???");
   const [showDetailsForm, setShowDetailsForm] = useState(false);
   const [showProcessesForm, setShowProcessesForm] = useState(false);
-
+  const [myParts, setMyParts] = useState(["???"]);
+  const [fetchedParts, setFetchedParts] = useState(Object);
   const [selectedPartIndex, setSelectedPartIndex] = useState(0);
   const [selectedProcessIndex, setSelectedProcessIndex] = useState(0);
   const [selectedDetailIndex, setSelectedDetailIndex] = useState(0);
@@ -34,6 +34,50 @@ function Processes() {
     { value: "2", label: "Two" },
     { value: "3", label: "Three" },
   ]);
+
+  async function updateMyParts() {
+    let results = ["???"];
+    let userInput = getToken();
+    let array = await fetchParts(userInput);
+    console.log("Results of fetchParts:");
+    console.log(array);
+    setFetchedParts(array);
+    for (let i = 0; i < array.length; i++) {
+      let result = array[i];
+      results[i] = result["name"];
+    }
+    if (array.length > 0) {
+      setMyParts(results);
+    } else {
+      setMyParts([]);
+    }
+    return results;
+  }
+
+  async function fetchParts(userInput: string) {
+    let username = getToken();
+    try {
+      const response = await fetch("/part/list", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user: username,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error("Error fetching parts:", error);
+      throw error; // Rethrow the error to be caught by the calling function
+    }
+  }
 
   const updateSelectedOption = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -453,9 +497,10 @@ function Processes() {
   }
 
   // These fields show be set via DB queries and refreshed during item selection queries
-  let myparts = ["part 1", "part 2", "part 3"];
-  //let myprocesses = ["process 1", "process 2"];
-
+  //let myparts = ["part 1", "part 2", "part 3"];
+  useEffect(() => {
+    updateMyParts().then((parts) => setMyParts(parts));
+  }, []);
   return (
     <div>
       <div id="alertplaceholder">
@@ -466,7 +511,7 @@ function Processes() {
         )}
       </div>
       <ListGroup
-        items={myparts}
+        items={myParts}
         heading="Parts"
         onSelectItem={(item, index) => handleSelectItem(item, index)}
         selectedIndex={selectedPartIndex}
