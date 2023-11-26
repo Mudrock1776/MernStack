@@ -10,16 +10,17 @@ h1 {
     text-align: center;
     font-size: 40px;
     font-weight: 600;
-    background-image: linear-gradient(to left, #ffffff, #422929);
+    background-image: linear-gradient(to right, #3626a7, #4532d8);
     color: transparent;
     background-clip: text;
     -webkit-background-clip: text;
+    text-shadow: 0px 2px 2px #282828;
   }
 
 .form {
   position: relative;
   z-index: 1;
-  background: #FFFFFF;
+  background: #FCFCFC;
   max-width: 360px;
   margin: 0 auto 100px;
   padding: 45px;
@@ -29,7 +30,7 @@ h1 {
 .form input {
   font-family: "Roboto", sans-serif;
   outline: 0;
-  background: #f2f2f2;
+  background: #55555518;
   width: 100%;
   border: 0;
   margin: 0 0 15px;
@@ -41,7 +42,7 @@ h1 {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
-  background: #4c63af;
+  background: #3626a7;
   width: 100%;
   border: 0;
   padding: 15px;
@@ -52,18 +53,20 @@ h1 {
   cursor: pointer;
 }
 .form button:hover,.form button:active,.form button:focus {
-  background: rgb(103, 139, 163);
+  /* background: rgb(103, 139, 163); */
+  background: #8B8BAE;
+
 }
 .form .message {
   margin: 15px 0 0;
-  color: #b3b3b3;
+  color: #252424;
   font-size: 12px;
 }
 .form .message a {
   color: #4c63af;
   text-decoration: none;
 }
-.form .register-form {
+.form .hidden-form {
   display: none;
 }
 .container {
@@ -101,8 +104,8 @@ h1 {
 }
 body {
   background: rgb(110, 110, 106); /* fallback for old browsers */
-  background: rgb(102, 105, 100);
-  background: linear-gradient(90deg, rgb(72, 73, 70) 0%, rgb(60, 62, 65)50%);
+  background: #8B8BAE;
+  background: linear-gradient(90deg, #555555 0%, #555555 50%);
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;      
