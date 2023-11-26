@@ -3,16 +3,19 @@ import { Chart } from "chart.js/auto";
 import "../styles/main.css";
 
 function getToken(){
-    const tokenString = sessionStorage.getItem('token');
-    const rval = tokenString?.token
+  const tokenString = sessionStorage.getItem('token');
+  const userToken = JSON.parse(tokenString);
+  return userToken?.token
 }
 
-const res = await fetch("/workstation/list", {
+const res = await fetch("/capacity", {
 	 method: "POST",
 	 headers: {
                 "Content-Type": "application/json",
      },
-     body: getToken(),
+     body: JSON.stringify({
+      user: getToken()
+     }),
 });
 const workstations = await res.json();
 
