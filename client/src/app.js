@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import WorkStation from "./components/workstation";
 
 //Components
 import Alert from "./components/Alert.tsx";
@@ -11,7 +12,8 @@ const App = () => {
     return(
         <div>
             <Routes>
-            <Route exact path="/" element={<Processes></Processes>} />
+              <Route exact path="/" element={<WorkStation />} />
+              <Route exact path="/" element={<Processes></Processes>} />
             </Routes>
         </div>
     );
