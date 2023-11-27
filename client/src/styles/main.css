@@ -11,6 +11,7 @@
 	display: flex;
 	flex-wrap: wrap;
 	z-index: 1;
+    background-color: white;
 }
 
 .main > div {

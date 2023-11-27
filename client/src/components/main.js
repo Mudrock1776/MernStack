@@ -8,18 +8,6 @@ function getToken(){
   return userToken?.token
 }
 
-const res = await fetch("/capacity", {
-	 method: "POST",
-	 headers: {
-                "Content-Type": "application/json",
-     },
-     body: JSON.stringify({
-      user: getToken()
-     }),
-});
-const workstations = await res.json();
-
-
 export default function Main() {
   //const workstations = dummydata;
   const chart1Ref = useRef(null);
@@ -29,6 +17,8 @@ export default function Main() {
   let chart2;
   let chartmax = 50;
   
+  
+
   function getMonthWorkstations(month) {
 	const monthlyCapacities = [].concat(...workstations.map((workstation) => {
 		const obj = {};
@@ -75,10 +65,27 @@ export default function Main() {
 		chart2.update();
 	};
 	
-	
+	const [workstations, setWorkstations] = useState([]);
   useEffect(() => {
     const chart1Ctx = chart1Ref.current.getContext("2d");
     const chart2Ctx = chart2Ref.current.getContext("2d");
+
+    
+    async function getWorkstations() {
+      const res = await fetch("/capacity", {
+        method: "POST",
+        headers: {
+                    "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+          user: getToken()
+          }),
+    });
+    var recieved = await res.json();
+    console.log(recieved)
+    setWorkstations(recieved);
+  }
+  getWorkstations();
 	
     chart1 = new Chart(chart1Ctx, {
       type: "bar",
@@ -156,9 +163,9 @@ export default function Main() {
       },
     });
 	
-	handleMonthChange({ target: {value: "0"} });
-	const firstWorkstationName = workstations.length > 0 ? workstation[0].name : '';
-	handleWorkstationChange({ target: { value: firstWorkstationName} });
+	// handleMonthChange({ target: {value: "0"} });
+	// const firstWorkstationName = workstations.length > 0 ? workstations[0].name : '';
+	// handleWorkstationChange({ target: { value: firstWorkstationName} });
 	
   }, []); // Empty dependency array ensures this useEffect runs only once
 
