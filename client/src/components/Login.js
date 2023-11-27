@@ -91,7 +91,6 @@ export default function Login(){
                         <h2>Sign Up</h2>
                         <input type="text" placeholder="Email" value={form.username} onChange={(e) => updateForm({username: e.target.value})}/>
                         <input type="password" placeholder="Password" value={form.password} onChange={(e) => updateForm({password: e.target.value})}/>
-                        <input type="password" placeholder="Confirm Password"/>
                         <button onClick={(e) => {register(e);}}>create</button>
                         <p class="message">Already registered? <a href="#" onClick={() => toggleLogin()}>Log In</a></p>
                     </form>
