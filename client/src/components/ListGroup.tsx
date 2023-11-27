@@ -23,8 +23,14 @@ function ListGroup({
   };
 
   return (
-    <>
-      <h1>{heading}</h1>
+    <div
+      className="container"
+      style={{
+        padding: "20px",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      <h2 style={{ color: "#1AFFD5" }}>{heading}</h2>
       {getMessage()}
       <ul className="list-group">
         {items.map((item, index) => (
@@ -38,13 +44,18 @@ function ListGroup({
             onClick={() => {
               onSelectItem(item, index);
             }}
+            style={
+              selectedIndex === index
+                ? { color: "#FFFFFF" } // Color when selected
+                : { color: "#000000" } // Color when not selected
+            }
           >
             {item}
             {children}
           </li>
         ))}
       </ul>
-    </>
+    </div>
   );
 }
 
