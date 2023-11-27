@@ -1,0 +1,90 @@
+/* Define color variables */
+:root {
+    --black: #020300;
+    --teal: #1AFFD5;
+    --grey: #8B8BAE;
+    --purple: #3626A7;
+    --white: #FCFCFC;
+}
+
+/* Styling for the page container */
+.page-container {
+    position: relative;
+    height: 0vh;
+    overflow-x: hidden; /* Hide horizontal overflow */
+	z-index: 0;
+}
+
+/* Styling for the menu */
+.menu {
+    position: fixed;
+    top: 0;
+    right: -20%; 
+    width: 23%;
+	padding-top: 1.5%;
+	padding-left: 0.5%;
+	opacity: 100%;
+    background-color: var(--white);
+    height: 100vh; /* Full height of the viewport */
+    transition: right 0.3s ease;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2); /* Example shadow effect */
+	z-index: 999;
+}
+
+.menu.active {
+    right: 0%;
+}
+
+/* Styling for the toggle button */
+.hamburger-menu {
+    border: none;
+    background-color: var(--white);
+}
+
+/* Styling for the menu content */
+.menu-content {
+	width: 50%;
+	margin: auto;
+    padding-top: 5%;
+	display: none;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.menu-content.show {
+	display: flex;
+	transition: opacity 0.3s ease;
+}
+
+.text-button {
+	display: block;
+	border: none;
+	background-color: var(--white);
+	margin-bottom: 10%;
+	font-size: 3vw;
+	font-family: 'Helvetica', sans-serif;
+}
+
+.text-button:hover {
+	color: var(--purple);
+	transition: color 0.3 ease;
+}
+
+/* Styling for the overlay */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 0; 
+    transition: opacity 0.3s ease;
+}
+
+.overlay.show {
+    display: block;
+	z-index: 50;
+}

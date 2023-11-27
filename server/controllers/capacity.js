@@ -246,7 +246,7 @@ exports.getCapacity = async (req, res) => {
         var workstations = await workstation.find({user: req.body.user});
         for (currentWorkstation in workstations) {
             for (i = 0; i < workstations[currentWorkstation].capacity.length; i++){
-                workstations[currentWorkstation].capacity[i] = workstations[currentWorkstation].capacity[i] / workstations[currentWorkstation].availability;
+                workstations[currentWorkstation].capacity[i] = (workstations[currentWorkstation].capacity[i] / workstations[currentWorkstation].availability) * 100;
             }
         }
         res.json(workstations);

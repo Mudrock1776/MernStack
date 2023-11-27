@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node ./server/server.js",
-    "build": "npm install && client && npm install && npm run build",
+    "build": "npm install && cd client && npm install && npm run build",
     "test": "echo hello world"
   },
   "repository": {

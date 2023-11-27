@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles.css";
 
 export default function Login(){
     const [form, setForm] = useState({
@@ -109,8 +108,6 @@ export default function Login(){
                     {formType()}
                 </div>
             </div>
-            
-            
             <Error />
         </div>
     )
