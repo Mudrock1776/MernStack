@@ -30,6 +30,7 @@ const Nav = () => {
                     <button className="text-button" onClick={() => handleNavigation("/parts")}>Parts</button>
                     <button className="text-button" onClick={() => handleNavigation("/workstation")}>Workstation</button>
                     <button className="text-button" onClick={() => handleNavigation("/process")}>Process</button>
+					<button className="text-button" onClick={ () => handleNavigation("/logout")}>Logout</button>
 				</div>
             </div>
             <div className={`overlay ${showMenu ? "show" : ""}`} onClick={toggleMenu}></div>
