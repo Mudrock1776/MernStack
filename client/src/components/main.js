@@ -155,6 +155,11 @@ export default function Main() {
         },
       },
     });
+	
+	handleMonthChange({ target: {value: "0"} });
+	const firstWorkstationName = workstations.length > 0 ? workstation[0].name : '';
+	handleWorkstationChange({ target: { value: firstWorkstationName} });
+	
   }, []); // Empty dependency array ensures this useEffect runs only once
 
   return (
