@@ -12,6 +12,7 @@ import Main from "./components/main"; // Use PascalCase for component names
 import Nav from "./components/Nav";
 import WorkStation from "./components/workstation";
 import Logout from "./components/logout.js";
+import PartList from "./components/parts.js";
 
 function getToken(){
     const tokenString = sessionStorage.getItem('token');
@@ -34,6 +35,7 @@ const App = () => {
                 <Route exact path="/workstation" element={<WorkStation />} />
                 <Route exact path="/process" element={<Processes></Processes>} />
                 <Route exact path="/logout" element={<Logout />} />
+                <Route exact path="/part" element={<PartList></PartList>} />
             </Routes>
         </div>
     );
