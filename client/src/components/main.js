@@ -8,6 +8,17 @@ function getToken(){
   return userToken?.token
 }
 
+const res = await fetch("/capacity", {
+  method: "POST",
+  headers: {
+               "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+     user: getToken()
+    }),
+});
+const workstations = await res.json();
+
 export default function Main() {
   //const workstations = dummydata;
   const chart1Ref = useRef(null);
@@ -16,23 +27,6 @@ export default function Main() {
   let chart1;
   let chart2;
   let chartmax = 50;
-  
-  const [workstations, setWorkstations] = useState([]);
-  async function getWorkstations() {
-    const res = await fetch("/capacity", {
-      method: "POST",
-      headers: {
-                  "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-        user: getToken()
-        }),
-  });
-  var recieved = await res.json();
-  console.log(recieved)
-  setWorkstations(recieved);
-  }
-  getWorkstations();
 
   function getMonthWorkstations(month) {
 	const monthlyCapacities = [].concat(...workstations.map((workstation) => {
@@ -48,7 +42,7 @@ export default function Main() {
 		const selectedMonth = parseInt(event.target.value, 10);
 		console.log(selectedMonth);
 		const monthlyCapacities = workstations.map(workstation => workstation.capacity[selectedMonth]);
-		const monthlyWorkstations = workstations.map(workstation => workstation.name);
+		const monthlyWorkstations = workstations.map((workstation) => workstation.name);
 		chart1.data.labels = monthlyWorkstations;
 		chart1.data.datasets[0].data = monthlyCapacities;
 		let localmax = Math.max(...monthlyCapacities) + 20;
@@ -79,7 +73,6 @@ export default function Main() {
 		chart2.options.scales.y.max = chartmax;
 		chart2.update();
 	};
-	
 	
   useEffect(() => {
     const chart1Ctx = chart1Ref.current.getContext("2d");
@@ -161,9 +154,9 @@ export default function Main() {
       },
     });
 	
-	// handleMonthChange({ target: {value: "0"} });
-	// const firstWorkstationName = workstations.length > 0 ? workstations[0].name : '';
-	// handleWorkstationChange({ target: { value: firstWorkstationName} });
+	handleMonthChange({ target: {value: "0"} });
+	const firstWorkstationName = workstations.length > 0 ? workstations[0].name : '';
+	handleWorkstationChange({ target: { value: firstWorkstationName} });
 	
   }, []); // Empty dependency array ensures this useEffect runs only once
 
