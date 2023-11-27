@@ -6,6 +6,14 @@ exports.createUser = async (req,res) => {
         res.status(406).send({
             token: "Username Taken"
         });
+    } else if (await user.exists({email: newUser.email})){
+        res.status(409).send({
+            token: "Email Taken"
+        });
+    } else if (!newUser.email || !newUser.username || !newUser.password){
+        res.status(400).send({
+            token: "All fields are required"
+        });
     } else {
         try {
             await newUser.save();
