@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import WorkStation from "./components/workstation";
 
 //Components
 import Login from "./components/Login";
@@ -9,6 +10,10 @@ function getToken(){
     const userToken = JSON.parse(tokenString);
     return userToken?.token
 }
+import Alert from "./components/Alert.tsx";
+import Button from "./components/Button.tsx";
+import ListGroup from "./components/ListGroup.tsx";
+import Processes from "./processes.tsx";
 
 const App = () => {
     const token = getToken();
@@ -18,6 +23,8 @@ const App = () => {
     return(
         <div>
             <Routes>
+              <Route exact path="/" element={<WorkStation />} />
+              <Route exact path="/" element={<Processes></Processes>} />
             </Routes>
         </div>
     );
