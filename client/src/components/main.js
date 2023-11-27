@@ -75,6 +75,11 @@ export default function Main() {
 	};
 	
   useEffect(() => {
+    if (workstations.length == 0){
+      return(
+        <h1>No Workstation declared</h1>
+      )
+    }
     const chart1Ctx = chart1Ref.current.getContext("2d");
     const chart2Ctx = chart2Ref.current.getContext("2d");
 	
