@@ -59,13 +59,55 @@ export default function Login(){
         )
     }
 
+    const [reg, setReg] = useState("");
+
+    function toggleLogin() {
+        setReg("");
+    }
+
+    function toggleRegister() {
+        setReg("a");
+    }
+
+    function formType() {
+
+        if (reg == "") {
+            var output = (
+                <div>
+                    <form class="login-form">
+                        <h2>Log In</h2>
+                        <input type="text" placeholder="Email" value={form.username} onChange={(e) => updateForm({username: e.target.value})}/>
+                        <input type="password" placeholder="Password" value={form.password} onChange={(e) => updateForm({password: e.target.value})}/>
+                        <button onClick={(e) => {onSubmit(e);}}>login</button>
+                        <p class="message">Not registered? <a href="#" onClick={() => toggleRegister()}>Create an account</a></p>
+                    </form>
+                </div>
+            )
+        } else {
+            var output = (
+                <div>
+                    <form class="register-form">
+                        <h2>Sign Up</h2>
+                        <input type="text" placeholder="Email" value={form.username} onChange={(e) => updateForm({username: e.target.value})}/>
+                        <input type="password" placeholder="Password" value={form.password} onChange={(e) => updateForm({password: e.target.value})}/>
+                        <button onClick={(e) => {register(e);}}>create</button>
+                        <p class="message">Already registered? <a href="#" onClick={() => toggleLogin()}>Log In</a></p>
+                    </form>
+                </div>
+            )
+        }
+
+        return output
+    }
+
     return (
         <div>
-            <form>
-                <label>UserName</label><input type="text" value={form.username} onChange={(e) => updateForm({username: e.target.value})} /><br />
-                <label>password</label><input type="text" value={form.password} onChange={(e) => updateForm({password: e.target.value})} /><br />
-                <button onClick={(e) => {onSubmit(e);}}>Login</button><button onClick={(e) => {register(e);}}>register</button>
-            </form>
+            <div class = "login-page">
+                <h1>Capacity Analysis</h1>
+                <div class = "form">
+                    {formType()}
+                </div>
+            </div>
             <Error />
         </div>
     )
