@@ -153,6 +153,7 @@ const PartList = () => {
                 ) : part.name}</td>
                 {part.months.map((quantity, index) => (
                   <td style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }} key={index}>{quantity}</td>
+                  
                 ))}
                 <td style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }}>
                   {editingPart?.id === part._id ? (
