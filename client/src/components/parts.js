@@ -12,6 +12,7 @@ const PartList = () => {
   const [newPart, setNewPart] = useState({ name: '', months: Array(12).fill(0) });
   const [editingPart, setEditingPart] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [updateList, setList] = useState(new Array(12))
 
   useEffect(() => {
     fetchParts();
@@ -49,7 +50,7 @@ const PartList = () => {
         user: token,
         id: id,
         name: editingPart.name,
-        months: editingPart.months,
+        months: updateList,
       });
       setEditingPart(null);
       fetchParts();
@@ -86,6 +87,11 @@ const PartList = () => {
     setSearchTerm('');
     fetchParts();
   };
+  const updateMonths = (index, value) => {
+    var temp = updateList
+    temp[index] = value
+    setList(temp)
+  }
 
   return (
     <div style={{ padding: '20px', backgroundColor: '#020300', color: '#FCFCFC', fontFamily: 'Arial, sans-serif' }}>
@@ -153,7 +159,12 @@ const PartList = () => {
                   />
                 ) : part.name}</td>
                 {part.months.map((quantity, index) => (
-                  <td style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }} key={index}>{quantity}</td>
+                  <td style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }} key={index}>{editingPart?.id === part._id ? (<input
+                    style={{width: "30px"}}
+                    type="text"
+                    value={quantity}
+                    onChange={(e) => updateMonths(index, e.target.value)}
+                  />) : quantity}</td>
                 ))}
                 <td style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }}>
                   {editingPart?.id === part._id ? (

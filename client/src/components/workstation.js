@@ -19,7 +19,13 @@ const WorkStation = () => {
     amount: 0,
     hours: 0,
   });
+  const [updatingWorkstation, setupdatingWorkstation] = useState({
+    name: "",
+    amount: "",
+    hours: ""
+  })
   const [searchTerm, setSearchTerm] = useState('');
+  const [editPartID, setEditingPart] = useState('');
 
   useEffect(() => {
     fetchWorkstations();
@@ -46,15 +52,22 @@ const WorkStation = () => {
     }
   };
 
-  const handleUpdateWorkstation = async (id, updatedWorkstation) => {
+  const handleUpdateWorkstation = async () => {
     try {
       const token = getToken();  
-      await axios.post('/workstation/update', { id, user: token, ...updatedWorkstation });
+      await axios.post('/workstation/update', { id: editPartID, user: token, ...updatingWorkstation });
+      setEditingPart("")
       fetchWorkstations();
     } catch (error) {
       console.error('Error updating workstation:', error);
     }
   };
+
+  function updatingworkstationupdation(value){
+    return setupdatingWorkstation((prev) => {
+        return {...prev, ...value};
+    });
+  }
 
   const handleDeleteWorkstation = async (id) => {
     try {
@@ -128,25 +141,42 @@ const WorkStation = () => {
         <tbody>
           {workstations.map(workstation => (
             <tr key={workstation._id}>
-              <td style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }}>{workstation.name}</td>
-              <td style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }}>{workstation.amount}</td>
-              <td style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }}>{workstation.hours}</td>
+              <td style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }}>{editPartID == workstation._id ? (
+                <input
+                type="text"
+                value={updatingWorkstation.name}
+                onChange={(e) => updatingworkstationupdation({name: e.target.value})}
+              />
+              ) : workstation.name}</td>
+              <td style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }}>{editPartID == workstation._id ? (
+                <input
+                type="text"
+                value={updatingWorkstation.amount}
+                onChange={(e) => updatingworkstationupdation({amount: e.target.value})}
+              />
+              ) : workstation.amount}</td>
+              <td style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }}>{editPartID == workstation._id ? (
+                <input
+                type="text"
+                value={updatingWorkstation.hours}
+                onChange={(e) => updatingworkstationupdation({hours: e.target.value})}
+              />
+              ) : workstation.hours}</td>
               <td style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }}>{workstation.availability}</td>
-              <td style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }}>
-                <button
-                  style={{ backgroundColor: '#3626A7', color: '#FCFCFC', padding: '5px 10px', marginRight: '5px' }}
-                  onClick={() => handleUpdateWorkstation(workstation._id, { amount: workstation.amount + 1 })}
-                >
-                  Update Amount
+              <td style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }}>{editPartID == workstation._id ? (
+                <button style={{ backgroundColor: '#3626A7', color: '#FCFCFC', padding: '5px 10px', marginRight: '5px' }} onClick={() => handleUpdateWorkstation()}>Update</button>
+              ) : ( <>
+                <button style={{ backgroundColor: '#3626A7', color: '#FCFCFC', padding: '5px 10px', marginRight: '5px' }} onClick={() => {setEditingPart(workstation._id)}}>
+                  Edit
                 </button>
-                <button
-                  style={{ backgroundColor: '#FCFCFC', color: '#020300', padding: '5px 10px' }}
-                  onClick={() => handleDeleteWorkstation(workstation._id)}
-                >
+                <button style={{ backgroundColor: '#FCFCFC', color: '#020300', padding: '5px 10px' }} onClick={() => handleDeleteWorkstation(workstation._id)}>
                   Delete
                 </button>
+                </>
+                )
+              }
               </td>
-            </tr>
+            </tr> 
           ))}
         </tbody>
       </table>
