@@ -138,7 +138,7 @@ export default function Login(){
                         <input type="text" placeholder="Username" value={form.username} onChange={(e) => updateForm({username: e.target.value})}/>
                         <input type="password" placeholder="Password" value={form.password} onChange={(e) => updateForm({password: e.target.value})}/>
                         <button onClick={(e) => {register(e);}}>Create</button>
-                        <p class="message">Already registered? <a href="#" onClick={() => toggleLogin(e)}>Log In</a></p>
+                        <p class="message">Already registered? <a href="#" onClick={() => toggleLogin()}>Log In</a></p>
                     </form>
                 </div>
             )
