@@ -9,6 +9,7 @@ const Nav = () => {
     const handleNavigation = (route) => {
         navigate(route);
         toggleMenu(); // Close the menu after navigation
+        window.location.reload(false);
     };
 
     const toggleMenu = () => {
