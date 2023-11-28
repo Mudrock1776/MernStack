@@ -87,33 +87,33 @@ const PartList = () => {
   };
 
   return (
-    <div>
-      <h2>Part Management</h2>
-      <div>
+    <div style={{ padding: '20px', backgroundColor: '#020300', color: '#FCFCFC', fontFamily: 'Arial, sans-serif' }}>
+      <h2 style={{ color: '#1AFFD5' }}>Part Management</h2>
+      <div style={{ marginBottom: '20px' }}>
         <input
           type="text"
           placeholder="Search Parts"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <button onClick={searchParts}>Search</button>
-        <button onClick={resetSearch}>Reset</button>
+        <button style={{ backgroundColor: '#3626A7', color: '#FCFCFC', padding: '5px 10px', marginLeft: '10px' }} onClick={searchParts}>Search</button>
+        <button style={{ backgroundColor: '#3626A7', color: '#FCFCFC', padding: '5px 10px', marginLeft: '10px' }} onClick={resetSearch}>Reset</button>
       </div>
 
-      <div>
-      <h3>Create New Part</h3>
-        <label>
+      <div style={{ marginBottom: '20px' }}>
+      <h3 style={{ color: '#1AFFD5' }}>Create New Part</h3>
+        <label style={{ marginRight: '10px' }}>
           Name:
-          <input
+          <input style={{marginLeft: '5px'}}
             type="text"
             value={newPart.name}
             onChange={(e) => setNewPart({ ...newPart, name: e.target.value })}
           />
         </label>
         {Array.from({ length: 12 }, (_, index) => (
-          <label key={index}>
+          <label style={{ marginRight: '10px' }} key={index}>
             {new Intl.DateTimeFormat('en-US', { month: 'long' }).format(new Date(0, index))}
-            <input
+            <input style={{marginLeft: '5px'}}
               type="text"
               value={newPart.months[index]}
               onChange={(e) => {
@@ -124,27 +124,27 @@ const PartList = () => {
             />
           </label>
         ))}
-        <button onClick={createPart}>Create Part</button>
+        <button style={{ backgroundColor: '#8B8BAE', color: '#020300', padding: '5px 10px', marginLeft: '10px' }} onClick={createPart}>Create Part</button>
       </div>
 
       <div>
       <h3>Existing Parts</h3>
-        <table>
+        <table style={{ width: '80%', borderCollapse: 'collapse' }}>
           <thead>
             <tr>
-              <th>Name</th>
+              <th style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'center', length: '50px' }}>Name</th>
               {Array.from({ length: 12 }, (_, index) => (
-                <th key={index}>
+                <th style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'center', length: '50px' }} key={index}>
                   {new Intl.DateTimeFormat('en-US', { month: 'long' }).format(new Date(0, index))}
                 </th>
               ))}
-              <th>Actions</th>
+              <th style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left', length: '50px' }}>Actions</th>
             </tr>
           </thead>
           <tbody>
             {parts.map((part) => (
               <tr key={part._id}>
-                <td>{editingPart?.id === part._id ? (
+                <td style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }}>{editingPart?.id === part._id ? (
                   <input
                     type="text"
                     value={editingPart.name}
@@ -152,17 +152,17 @@ const PartList = () => {
                   />
                 ) : part.name}</td>
                 {part.months.map((quantity, index) => (
-                  <td key={index}>{quantity}</td>
+                  <td style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }} key={index}>{quantity}</td>
                 ))}
-                <td>
+                <td style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }}>
                   {editingPart?.id === part._id ? (
-                    <button onClick={() => updatePart(part._id)}>Save</button>
+                    <button style={{ backgroundColor: '#3626A7', color: '#FCFCFC', padding: '5px 10px', marginRight: '5px' }} onClick={() => updatePart(part._id)}>Save</button>
                   ) : (
                     <>
-                      <button onClick={() => setEditingPart({ id: part._id, name: part.name, months: part.months })}>
+                      <button style={{ backgroundColor: '#3626A7', color: '#FCFCFC', padding: '5px 10px', marginRight: '5px' }} onClick={() => setEditingPart({ id: part._id, name: part.name, months: part.months })}>
                         Edit
                       </button>
-                      <button onClick={() => deletePart(part._id)}>Delete</button>
+                      <button style={{ backgroundColor: '#FCFCFC', color: '#020300', padding: '5px 10px' }} onClick={() => deletePart(part._id)}>Delete</button>
                     </>
                   )}
                 </td>

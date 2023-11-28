@@ -115,7 +115,7 @@ const WorkStation = () => {
         </button>
       </div>
 
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+      <table style={{ width: '80%', borderCollapse: 'collapse' }}>
         <thead>
           <tr>
             <th style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }}>Name</th>
