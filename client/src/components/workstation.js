@@ -69,7 +69,7 @@ const WorkStation = () => {
   const handleSearchWorkstation = async () => {
     try {
       const token = getToken();  
-      const response = await axios.post('/workstation/find', { user: token });
+      const response = await axios.post('/workstation/list', { user: token });
       const filteredWorkstations = response.data.filter(workstation =>
         workstation.name.toLowerCase().includes(searchTerm.toLowerCase())
       );

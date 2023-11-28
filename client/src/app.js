@@ -35,7 +35,7 @@ const App = () => {
                 <Route exact path="/workstation" element={<WorkStation />} />
                 <Route exact path="/process" element={<Processes></Processes>} />
                 <Route exact path="/logout" element={<Logout />} />
-                <Route exact path="/part" element={<PartList></PartList>} />
+                <Route exact path="/parts" element={<PartList></PartList>} />
             </Routes>
         </div>
     );
