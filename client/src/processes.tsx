@@ -28,6 +28,7 @@ function Processes() {
   const [selectedPartIndex, setSelectedPartIndex] = useState(0);
   const [selectedProcessIndex, setSelectedProcessIndex] = useState(0);
   const [selectedDetailIndex, setSelectedDetailIndex] = useState(0);
+  const [showDeleteButton, setShowDeleteButton] = useState(false);
 
   const [options, setOptions] = useState([
     { value: "1", label: "One" },
@@ -83,6 +84,7 @@ function Processes() {
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const selectedOption = event.target.value;
+    console.log("Selected option: " + selectedOption);
     setAddProcessFormData({
       ...addProcessFormData,
       ["workstation"]: selectedOption,
@@ -139,6 +141,48 @@ function Processes() {
     setShowProcessesForm(true);
   };
 
+  const handleOnClick2 = async () => {
+    setShowAlert(false);
+    setShowDeleteButton(false);
+    removeProcess(processID);
+    setShowDetails(false);
+    setShowDetailsForm(false);
+  };
+
+  async function removeProcess(userInput: string) {
+    //console.log("Data being POST to /process/update:\n"+userInput);
+    try {
+      const response = await fetch("/process/delete", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: userInput,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const result = await response.text();
+      console.log("Result of removeProcess():" + result);
+      let updatedProcesses = await fetchProcesses(getToken(), selectedPart);
+      let resultStrings = [""];
+      for (let i = 0; i < updatedProcesses.length; i++) {
+        let array = updatedProcesses[i];
+        resultStrings[i] = array["name"];
+      }
+      setMyprocesses(resultStrings);
+      if (updatedProcesses.length === 0) setShowProcesses(false);
+      return result;
+    } catch (error) {
+      console.error("Error removing process:", error);
+      throw error; // Rethrow the error to be caught by the calling function
+    }
+  }
+
   const handleSubmitProcessesForm = async (
     event: React.FormEvent<HTMLFormElement>
   ) => {
@@ -151,9 +195,10 @@ function Processes() {
     data[4] = addProcessFormData.MT;
     data[5] = addProcessFormData.BS;
     data[6] = addProcessFormData.RTY;
-
     console.log("Data being POST to create process:");
     console.log(data);
+    let defaultWorkstation = await fetchWorkstations(getToken());
+    if (data[3].length === 0) data[3] = defaultWorkstation[0]["name"];
     addProcess(data);
 
     // Update Process Details display
@@ -188,6 +233,7 @@ function Processes() {
     setSelectedProcessIndex(-1);
     setSelectedDetailIndex(-1);
     setShowAddButton(true);
+    setShowDeleteButton(false);
     let partInput = item;
     let userInput = getToken();
     let result = await fetchProcesses(userInput, partInput);
@@ -215,7 +261,8 @@ function Processes() {
   };
 
   const handleSelectProcess = async (item: string, index: number) => {
-    setShowAddButton(false);
+    setShowAddButton(true);
+    setShowDeleteButton(true);
     //setSelectedPartIndex(-1);
     setSelectedProcessIndex(index);
     setSelectedDetailIndex(-1);
@@ -315,7 +362,7 @@ function Processes() {
     let defaultMT = "";
     let defaultBS = "";
     let defaultRTY = "";
-    let defaultWorkstation = "";
+    let defaultWorkstation = fetchWorkstations(getToken())[0];
     for (let i = 0; i < updatedProcesses.length; i++) {
       let array = updatedProcesses[i];
       if (array["name"] === process) {
@@ -456,6 +503,13 @@ function Processes() {
       }
 
       const result = await response.text();
+      let updatedProcesses = await fetchProcesses(getToken(), selectedPart);
+      let resultStrings = [""];
+      for (let i = 0; i < updatedProcesses.length; i++) {
+        let array = updatedProcesses[i];
+        resultStrings[i] = array["name"];
+      }
+      setMyprocesses(resultStrings);
       return result;
     } catch (error) {
       console.error("Error adding process:", error);
@@ -502,7 +556,14 @@ function Processes() {
     updateMyParts().then((parts) => setMyParts(parts));
   }, []);
   return (
-    <div>
+    <div
+      style={{
+        padding: "20px",
+        backgroundColor: "#020300",
+        color: "#FCFCFC",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
       <div id="alertplaceholder">
         {showAlert && (
           <Alert color="danger" onClose={handleDismiss}>
@@ -554,7 +615,7 @@ function Processes() {
               className="form-select"
               aria-label="Select an option"
               value={addProcessFormData.workstation}
-              onChange={updateSelectedOption}
+              onChange={(e) => updateSelectedOption(e)}
             >
               {options.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -605,8 +666,8 @@ function Processes() {
         </form>
       )}
       {showDetailsForm && (
-        <>
-          <h1>{detailsHeader}</h1>
+        <div className="container">
+          <h2 style={{ color: "#1AFFD5" }}>{detailsHeader}</h2>
           <form onSubmit={handleSubmitForm}>
             <div className="mb-3">
               <label htmlFor="workstation" className="form-label">
@@ -665,7 +726,7 @@ function Processes() {
               Submit
             </button>
           </form>
-        </>
+        </div>
       )}
       {showWorkstations && (
         <div className="mb-3">
@@ -688,15 +749,30 @@ function Processes() {
       )}
       <br></br>
       {showAddButton && (
-        <Button
-          color="success"
-          onClick={() => {
-            handleDismiss();
-            handleOnClick();
-          }}
-        >
-          + Add Process
-        </Button>
+        <>
+          <Button
+            color="success"
+            onClick={() => {
+              handleDismiss();
+              handleOnClick();
+            }}
+          >
+            + Add Process
+          </Button>
+        </>
+      )}
+      {showDeleteButton && (
+        <>
+          <Button
+            color="danger"
+            onClick={() => {
+              handleDismiss();
+              handleOnClick2();
+            }}
+          >
+            - Delete Process
+          </Button>
+        </>
       )}
     </div>
   );
