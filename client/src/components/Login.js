@@ -8,6 +8,7 @@ export default function Login(){
         password: "",
     });
     const [error, setError] = useState("")
+    const [passVerification, setPassVerification] = useState("")
     const navigate = useNavigate();
 
     function updateForm(value){
@@ -36,22 +37,26 @@ export default function Login(){
         }
     }
     async function register(e){
-        e.preventDefault();
-        const registerRequest = {...form};
-        const res = await fetch("/user/create", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(registerRequest),
-        });
-        const nerror = await res.json();
-        if ( nerror.token === "Username Taken"){
-            setError(nerror.token);
+        if (passVerification != form.password){
+            setError("Passwords don't match");
         } else {
-            sessionStorage.setItem('token', JSON.stringify(nerror));
-            navigate('/main');
-            window.location.reload(false);
+            e.preventDefault();
+            const registerRequest = {...form};
+            const res = await fetch("/user/create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(registerRequest),
+            });
+            const nerror = await res.json();
+            if ( nerror.token === "Username Taken"){
+                setError(nerror.token);
+            } else {
+                sessionStorage.setItem('token', JSON.stringify(nerror));
+                navigate('/main');
+                window.location.reload(false);
+            }
         }
     }
     function Error(){
@@ -91,6 +96,7 @@ export default function Login(){
                         <h2>Sign Up</h2>
                         <input type="text" placeholder="Email" value={form.username} onChange={(e) => updateForm({username: e.target.value})}/>
                         <input type="password" placeholder="Password" value={form.password} onChange={(e) => updateForm({password: e.target.value})}/>
+                        <input type="password" placeholder="Verify Password" value={passVerification} onChange={(e) => setPassVerification(e.target.value)} />
                         <button onClick={(e) => {register(e);}}>create</button>
                         <p class="message">Already registered? <a href="#" onClick={() => toggleLogin()}>Log In</a></p>
                     </form>
@@ -107,9 +113,9 @@ export default function Login(){
                 <h1>Capacity Analysis</h1>
                 <div class = "form">
                     {formType()}
+                    <Error />
                 </div>
             </div>
-            <Error />
         </div>
     )
 }
