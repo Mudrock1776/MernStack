@@ -132,13 +132,13 @@ const PartList = () => {
         <table style={{ width: '80%', borderCollapse: 'collapse' }}>
           <thead>
             <tr>
-              <th style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'center', length: '50px' }}>Name</th>
+              <th style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }}>Name</th>
               {Array.from({ length: 12 }, (_, index) => (
-                <th style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'center', length: '50px' }} key={index}>
+                <th style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }} key={index}>
                   {new Intl.DateTimeFormat('en-US', { month: 'long' }).format(new Date(0, index))}
                 </th>
               ))}
-              <th style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left', length: '50px' }}>Actions</th>
+              <th style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }}>Actions</th>
             </tr>
           </thead>
           <tbody>
