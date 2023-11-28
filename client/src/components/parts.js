@@ -71,11 +71,12 @@ const PartList = () => {
   const searchParts = async () => {
     try {
       const token = getToken();
-      const response = await axios.post('/part/find', {
+      const response = await axios.post('/part/list', {
         user: token,
         searchTerm: searchTerm,
       });
-      setParts(response.data);
+      const filiteredSearch = response.data.filter(partS => partS.name.toLowerCase().includes(searchTerm.toLowerCase()));
+      setParts(filiteredSearch);
     } catch (error) {
       console.error('Error searching for parts:', error);
     }
@@ -153,7 +154,6 @@ const PartList = () => {
                 ) : part.name}</td>
                 {part.months.map((quantity, index) => (
                   <td style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }} key={index}>{quantity}</td>
-                  
                 ))}
                 <td style={{ border: '1px solid #FCFCFC', padding: '8px', textAlign: 'left' }}>
                   {editingPart?.id === part._id ? (
